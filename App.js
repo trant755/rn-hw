@@ -1,7 +1,8 @@
-import RegistrationScreen from "./screens/RegistrationScreen";
 import { Text, View } from "react-native";
 import { useFonts } from "expo-font";
-import LoginScreen from "./screens/LoginScreen";
+import { Provider } from "react-redux";
+import { store } from "./redux/store";
+import Main from "./components/Main";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -20,7 +21,8 @@ export default function App() {
   }
 
   return (
-    // <LoginScreen />
-    <RegistrationScreen />
+    <Provider store={store}>
+      <Main />
+    </Provider>
   );
 }

@@ -53,7 +53,9 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   formHellper: {
+    flexDirection: "row",
     alignItems: "center",
+    justifyContent: "center",
   },
   formHellperText: {
     fontFamily: "Roboto-Regular",

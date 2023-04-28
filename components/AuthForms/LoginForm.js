@@ -5,8 +5,11 @@ import {
   TextInput,
   Platform,
   KeyboardAvoidingView,
+  TouchableOpacity,
 } from "react-native";
+import { useDispatch } from "react-redux";
 
+import { signIn, signOut, isLogin } from "../../redux/authSlice";
 import styles from "./AuthForms.styled";
 import AuthBtn from "./AuthBtn/AuthBtn";
 import PasswordInput from "./PasswordInput/PasswordInput";
@@ -16,9 +19,10 @@ const initState = {
   password: "",
 };
 
-const LoginForm = ({ keyboardHide, setIsShowKeyboard }) => {
+const LoginForm = ({ keyboardHide, setIsShowKeyboard, navigation }) => {
   const [formState, setFormState] = useState(initState);
   const [isFocused, setIsFocused] = useState({});
+  const dispatch = useDispatch();
 
   const onChangeHandler = (name, value) => {
     setFormState((prevState) => ({ ...prevState, [name]: value }));
@@ -28,6 +32,7 @@ const LoginForm = ({ keyboardHide, setIsShowKeyboard }) => {
     console.log(formState);
     setFormState(initState);
     keyboardHide();
+    dispatch(signIn());
   };
 
   return (
@@ -41,7 +46,10 @@ const LoginForm = ({ keyboardHide, setIsShowKeyboard }) => {
         </View>
         <View style={styles.form}>
           <TextInput
-            style={styles.textInput}
+            style={[
+              isFocused.email ? styles.textInputActive : styles.textInput,
+              { marginBottom: 16 },
+            ]}
             onChangeText={(text) => onChangeHandler("email", text)}
             value={formState.email}
             placeholder="Адрес электронной почты"
@@ -67,9 +75,13 @@ const LoginForm = ({ keyboardHide, setIsShowKeyboard }) => {
           <AuthBtn onSubmit={onSubmit} btnText={"Войти"} />
         </View>
         <View style={styles.formHellper}>
-          <Text style={styles.formHellperText}>
-            Нет аккаунта? Зарегистрироваться
-          </Text>
+          <Text style={styles.formHellperText}>Нет аккаунта?</Text>
+          <TouchableOpacity
+            style={{ marginLeft: 4 }}
+            onPress={() => navigation.navigate("Register")}
+          >
+            <Text style={styles.formHellperText}>Зарегистрироваться</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </KeyboardAvoidingView>

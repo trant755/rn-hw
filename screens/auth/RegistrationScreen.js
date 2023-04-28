@@ -1,10 +1,10 @@
 import { Keyboard, TouchableWithoutFeedback, View } from "react-native";
 import { useState } from "react";
 
-import RegisterForm from "../components/AuthForms/RegisterForm";
-import AuthScreenSection from "../components/AuthScreenSection/AuthScreenSection";
+import RegisterForm from "../../components/AuthForms/RegisterForm";
+import AuthScreenSection from "../../components/AuthScreenSection/AuthScreenSection";
 
-const RegistrationScreen = () => {
+const RegistrationScreen = ({ navigation }) => {
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
 
   const keyboardHide = () => {
@@ -19,6 +19,7 @@ const RegistrationScreen = () => {
           <RegisterForm
             keyboardHide={keyboardHide}
             setIsShowKeyboard={setIsShowKeyboard}
+            navigation={navigation}
           />
         </AuthScreenSection>
       </View>

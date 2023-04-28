@@ -1,12 +1,15 @@
 import { useState } from "react";
-
 import {
   View,
   Text,
   TextInput,
   Platform,
   KeyboardAvoidingView,
+  TouchableOpacity,
 } from "react-native";
+import { useDispatch } from "react-redux";
+
+import { signIn, signOut, isLogin } from "../../redux/authSlice";
 import ImagePicker from "../ImagePicker/ImagePicker";
 import AuthBtn from "./AuthBtn/AuthBtn";
 import styles from "./AuthForms.styled";
@@ -19,9 +22,10 @@ const initState = {
   avatar: null,
 };
 
-const RegisterForm = ({ keyboardHide, setIsShowKeyboard }) => {
+const RegisterForm = ({ keyboardHide, setIsShowKeyboard, navigation }) => {
   const [formState, setFormState] = useState(initState);
   const [isFocused, setIsFocused] = useState({});
+  const dispatch = useDispatch();
 
   const onChangeHandler = (name, value) => {
     setFormState((prevState) => ({ ...prevState, [name]: value }));
@@ -31,6 +35,7 @@ const RegisterForm = ({ keyboardHide, setIsShowKeyboard }) => {
     console.log(formState);
     setFormState(initState);
     keyboardHide();
+    dispatch(signIn());
   };
 
   return (
@@ -47,7 +52,10 @@ const RegisterForm = ({ keyboardHide, setIsShowKeyboard }) => {
         </View>
         <View style={styles.form}>
           <TextInput
-            style={isFocused.login ? styles.textInputActive : styles.textInput}
+            style={[
+              isFocused.login ? styles.textInputActive : styles.textInput,
+              { marginBottom: 16 },
+            ]}
             onChangeText={(text) => onChangeHandler("login", text)}
             value={formState.login}
             placeholder="Логин"
@@ -58,7 +66,10 @@ const RegisterForm = ({ keyboardHide, setIsShowKeyboard }) => {
             onBlur={() => setIsFocused({})}
           />
           <TextInput
-            style={isFocused.email ? styles.textInputActive : styles.textInput}
+            style={[
+              isFocused.email ? styles.textInputActive : styles.textInput,
+              { marginBottom: 16 },
+            ]}
             onChangeText={(text) => onChangeHandler("email", text)}
             value={formState.email}
             placeholder="Адрес электронной почты"
@@ -84,7 +95,13 @@ const RegisterForm = ({ keyboardHide, setIsShowKeyboard }) => {
           <AuthBtn onSubmit={onSubmit} btnText={"Зарегистрироваться"} />
         </View>
         <View style={styles.formHellper}>
-          <Text style={styles.formHellperText}>Уже есть аккаунт? Войти</Text>
+          <Text style={styles.formHellperText}>Уже есть аккаунт?</Text>
+          <TouchableOpacity
+            style={{ marginLeft: 4 }}
+            onPress={() => navigation.navigate("Login")}
+          >
+            <Text style={styles.formHellperText}>Войти</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </KeyboardAvoidingView>

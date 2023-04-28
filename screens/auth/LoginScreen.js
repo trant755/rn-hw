@@ -1,10 +1,10 @@
 import { Keyboard, TouchableWithoutFeedback, View } from "react-native";
 import { useState } from "react";
 
-import LoginForm from "../components/AuthForms/LoginForm";
-import AuthScreenSection from "../components/AuthScreenSection/AuthScreenSection";
+import LoginForm from "../../components/AuthForms/LoginForm";
+import AuthScreenSection from "../../components/AuthScreenSection/AuthScreenSection";
 
-const LoginScreen = () => {
+const LoginScreen = ({ navigation }) => {
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
 
   const keyboardHide = () => {
@@ -19,6 +19,7 @@ const LoginScreen = () => {
           <LoginForm
             keyboardHide={keyboardHide}
             setIsShowKeyboard={setIsShowKeyboard}
+            navigation={navigation}
           />
         </AuthScreenSection>
       </View>
